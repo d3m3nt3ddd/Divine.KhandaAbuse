@@ -1,0 +1,12 @@
+﻿<Project Sdk="Divine.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <DivineCopyToPlugins>true</DivineCopyToPlugins> <!--Сopies the dll file to the Plugins folder (Default Enabled)-->
+    <DivineUseSourceGenerator>true</DivineUseSourceGenerator> <!--Enable Divine source generator (Default Enabled)-->
+    <DivineUseProtobufs>false</DivineUseProtobufs> <!--Enable Divine protobufs (Default Disabled)-->
+  </PropertyGroup>
+
+</Project>
