@@ -73,12 +73,12 @@ internal sealed class Bootstrap : Bootstrapper
     {
         float currentTime = GameManager.RawGameTime;
 
-        
         if (currentTime < _nextActionTime) return;
 
         var localHero = EntityManager.LocalHero;
 
-        if (localHero is null || !localHero.IsAlive || localHero.Inventory is null)
+        
+        if (localHero is null || localHero.Inventory is null)
         {
             _disassembledByScript = false;
             _khandaReadyAt = 0f;
@@ -95,9 +95,11 @@ internal sealed class Bootstrap : Bootstrapper
 
         if (khanda != null && khanda.IsValid)
         {
-            
             _disassembledByScript = false;
             _khandaReadyAt = 0f;
+
+            
+            if (!localHero.IsAlive) return;
 
             if (currentTime < _blockDisassembleUntil) return;
             if (khanda.Cooldown < 1.0f) return;
@@ -110,7 +112,7 @@ internal sealed class Bootstrap : Bootstrapper
                 _disassembledByScript = true;
 
                 khanda.Disassemble();
-                
+
                 _nextActionTime = currentTime + 0.35f;
             }
             return;
@@ -128,7 +130,7 @@ internal sealed class Bootstrap : Bootstrapper
                 if (HasLockedComponents(localHero))
                 {
                     ForceReassembleComponents(localHero);
-                    
+
                     _nextActionTime = currentTime + 0.35f;
                 }
                 else
@@ -186,7 +188,6 @@ internal sealed class Bootstrap : Bootstrapper
     {
         if (localHero.Inventory is null) return false;
 
-        
         return localHero.Inventory.Items.Any(x =>
             x != null && x.IsValid && (x.Name == "item_phylactery" || x.Name == "item_soul_booster") && x.IsCombineLocked);
     }
@@ -195,7 +196,6 @@ internal sealed class Bootstrap : Bootstrapper
     {
         if (localHero.Inventory is null) return;
 
-        
         var itemsToUnlock = localHero.Inventory.Items
             .Where(x => x != null && x.IsValid && (x.Name == "item_phylactery" || x.Name == "item_soul_booster"));
 
